@@ -2,6 +2,7 @@ function Baton() {
 
   var API = {};
 
+
   var input = null;
   var midi = null;
   var inputName = null;
@@ -10,6 +11,13 @@ function Baton() {
   API.callback = null;
 
   var inputs = null;
+  var outputs = null;
+
+
+  API.checkSupport = function() {
+    var supportsWebMIDI = ( function () { try { return !! navigator.requestMIDIAccess; } catch( e ) { return false; } } )();
+    return supportsWebMIDI;
+  };
 
   API.connect = function(callback) {
     connectCallback = callback;
@@ -28,10 +36,34 @@ function Baton() {
     return inputs;
   };
 
+  API.outputs = function() {
+    return outputs;
+  };
+
   API.listen = function(i) {
     if (API.check() === true) {
       midi.inputs()[i].onmidimessage = handleMIDIMessage;
       console.log("Hooked up input # " + i + ": " + midi.inputs()[i].name );
+    } else {
+      console.log("Not connected.");
+    }
+  };
+
+  API.send = function(o, d) {
+    if (API.check() === true) {
+      var data = [];
+      switch (d.type) {
+        case "control":
+          data.push(175 + d.channel);
+          break;
+        default:
+          data.push(143 + d.channel);
+          break;
+      }
+      data.push(d.note);
+      data.push(d.value);
+      midi.outputs()[o].send(data);
+      console.log("sending to " + midi.outputs()[o].name, data);
     } else {
       console.log("Not connected.");
     }
@@ -47,10 +79,19 @@ function Baton() {
     inputs = out;
   };
 
+  var getOutputs = function() {
+    out = [];
+    for (var i in midi.outputs()) {
+      out.push( midi.outputs()[i].name );
+    }
+    outputs = out;
+  };
+
   var success = function(m) {
     console.log("connected!");
     midi = m;
     getInputs();
+    getOutputs();
     if (typeof connectCallback === 'function') {
      connectCallback();
    }
@@ -72,15 +113,16 @@ function Baton() {
       }
       message.note = parseInt(ev.data[1].toString(10));
       message.value = parseInt(ev.data[2].toString(10));
-      console.log(message);
       if (typeof API.callback === 'function') {
        API.callback(message);
       }
     }
   };
 
-  var supportsWebMIDI = ( function () { try { return !! navigator.requestMIDIAccess; } catch( e ) { return false; } } )();
-  if (supportsWebMIDI === true) {
+
+
+
+  if (checkSupport() === true) {
     return API;
   } else {
     console.log("Looks like your browser doesn't support WebMIDI.");
