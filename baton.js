@@ -31,7 +31,7 @@ function Baton() {
   API.listen = function(i) {
     if (API.check() === true) {
       midi.inputs()[i].onmidimessage = handleMIDIMessage;
-      console.log("Hooked up input # " + i + ": " + API.inputs[i] );
+      console.log("Hooked up input # " + i + ": " + midi.inputs()[i].name );
     } else {
       console.log("Not connected.");
     }
@@ -45,10 +45,10 @@ function Baton() {
       out.push( midi.inputs()[i].name );
     }
     inputs = out;
-    console.log(out);
   };
 
   var success = function(m) {
+    console.log("connected!");
     midi = m;
     getInputs();
     if (typeof connectCallback === 'function') {
