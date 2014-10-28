@@ -79,6 +79,13 @@ function Baton() {
     }
   };
 
-  return API;
-
+  var supportsWebMIDI = ( function () { try { return !! navigator.requestMIDIAccess; } catch( e ) { return false; } } )();
+  if (supportsWebMIDI === true) {
+    return API;
+  } else {
+    console.log("Looks like your browser doesn't support WebMIDI.");
+    console.log("If you're in OSX Chrome, enable the chrome://flags/#enable-web-midi flag and relaunch Chrome.");
+    console.log("Otherwise try the Jazz-Soft Jazz plugin.");
+    console.log("More info at http://baton.monks.co");
+  }
 }
