@@ -2,30 +2,48 @@ function MidiJS() {
 
   var API = {};
 
-  API.input = null;
-  API.inputName = null;
+  var input = null;
+  var midi = null;
+  var inputName = null;
 
   API.print = function() {
     console.log("print");
-    navigator.requestMIDIAccess().then(printMidiInputs, failure);
+    var out = navigator.requestMIDIAccess().then(printMidiInputs, failure);
+    return out;
   };
 
-  API.start = function() {
+  API.start = function(i) {
     console.log("start");
+    API.setInput(i);
     navigator.requestMIDIAccess().then(success, failure);
   };
 
+  API.setInput = function(i) {
+    input = i;
+  };
 
-  var midi = null;
-  var inputs = null;
+  API.getInput = function() {
+    return input;
+  };
+
+  setInputName = function(i) {
+    inputName = i;
+  };
+
+  API.getInputName = function() {
+    return inputName;
+  };
+
+  inputs = null;
 
 
-  success = function(midi) {
+  success = function(m) {
+    midi = m;
     console.log("success");
-    inputs = midi.inputs();
-    var i = API.input;
-    inputs[i].onmidimessage = handleMIDIMessage;
-    console.log("Hooked up input # " + i + ": " + inputs[i].name);
+    var i = API.getInput();
+    setInputName(midi.inputs()[i].name);
+    midi.inputs()[i].onmidimessage = handleMIDIMessage;
+    console.log("Hooked up input # " + i + ": " + API.getInputName() );
   };
 
   failure = function(error) {
@@ -33,17 +51,19 @@ function MidiJS() {
     alert("Failed to initialize MIDI - " + ((error.code == 1) ? "permission denied" : ("error code " + error.code)));
   };
 
-  printMidiInputs = function(midi) {
+  printMidiInputs = function(m) {
+    midi = m;
     console.log("printMidiInputs");
-    inputs = midi.inputs();
-    console.log("inputs: ", inputs);
+    out = midi.inputs();
+    console.log("inputs: ", out);
+    return out;
   };
 
   handleMIDIMessage = function(ev) {
     console.log("handleMIDIMessage");
     if (ev.data.length == 3) {
       message = {
-        input: API.input,
+        input: API.getInput(),
         channel: parseInt(ev.data[0].toString(10)) - 143,
         note: parseInt(ev.data[1].toString(10)),
         value: parseInt(ev.data[2].toString(10))
