@@ -53,50 +53,7 @@
 <li><p><a href="/examples/sound.html">use Baton to make sound with webPd</a> plays sine waves</p></li>
 </ul>
 
-<h3>
-<a name="handle-all-input-sources-identically" class="anchor" href="#handle-all-input-sources-identically"><span class="octicon octicon-link"></span></a>Handle all input sources identically</h3>
-
-<p><a href="http://baton.monks.co/examples/single.html">online demo</a></p>
-
-<pre><code>// instantiate object
-midiMulti = new Baton();
-
-// create a function to be called once the midi connection is made
-listenMulti = function() {
-    // listen to all inputs
-    for (var i = 0; i &lt; listenMulti.inputs().length; i++) {
-      listenMulti.listen(i);
-    }
-};
-
-// connect to midi, set the function to be called when connected
-midiMulti.connect(listenMulti);
-
-// this callback is executed when a midi event is received.
-midiMulti.callback = function(m) { console.log("multi", m); };
-</code></pre>
-
-<h3>
-<a name="handle-specific-input-sources-differently" class="anchor" href="#handle-specific-input-sources-differently"><span class="octicon octicon-link"></span></a>handle specific input sources differently</h3>
-
-<p><a href="http://baton.monks.co/examples/multi.html">online demo</a></p>
-
-<pre><code>// instantiate objects
-midiZero = new Baton();
-midiOne = new Baton();
-
-// create functions to be called once the midi connections are made
-listenZero = function() { midiZero.listen(0); };
-listenOne = function() { midiOne.listen(1); };
-
-// connect to midi, set the functions to be called when connected
-midiZero.connect(listenZero);
-midiOne.connect(listenOne);
-
-// these callbacks are executed when a midi event is received.
-midiZero.callback = function(m) { console.log("midiZero", m); };
-midiOne.callback = function(m) { console.log("midiOne", m); };
-</code></pre><h2>
+<h2>
 <a name="api" class="anchor" href="#api"><span class="octicon octicon-link"></span></a>API</h2>
 
 <h3>
@@ -146,6 +103,56 @@ for (var i = 0; i &lt; Baton.inputs().length; i++) {
   Baton.listen(i);
 }
 </code></pre>
+
+<h2>
+<a name="design-patterns" class="anchor" href="#design-patterns"><span class="octicon octicon-link"></span></a>Design Patterns</h2>
+
+
+<h3>
+<a name="handle-all-input-sources-identically" class="anchor" href="#handle-all-input-sources-identically"><span class="octicon octicon-link"></span></a>Handle all input sources identically</h3>
+
+<p><a href="http://baton.monks.co/examples/single.html">online demo</a></p>
+
+<pre><code>// instantiate object
+midiMulti = new Baton();
+
+// create a function to be called once the midi connection is made
+listenMulti = function() {
+    // listen to all inputs
+    for (var i = 0; i &lt; listenMulti.inputs().length; i++) {
+      listenMulti.listen(i);
+    }
+};
+
+// connect to midi, set the function to be called when connected
+midiMulti.connect(listenMulti);
+
+// this callback is executed when a midi event is received.
+midiMulti.callback = function(m) { console.log("multi", m); };
+</code></pre>
+
+<h3>
+<a name="handle-specific-input-sources-differently" class="anchor" href="#handle-specific-input-sources-differently"><span class="octicon octicon-link"></span></a>handle specific input sources differently</h3>
+
+<p><a href="http://baton.monks.co/examples/multi.html">online demo</a></p>
+
+<pre><code>// instantiate objects
+midiZero = new Baton();
+midiOne = new Baton();
+
+// create functions to be called once the midi connections are made
+listenZero = function() { midiZero.listen(0); };
+listenOne = function() { midiOne.listen(1); };
+
+// connect to midi, set the functions to be called when connected
+midiZero.connect(listenZero);
+midiOne.connect(listenOne);
+
+// these callbacks are executed when a midi event is received.
+midiZero.callback = function(m) { console.log("midiZero", m); };
+midiOne.callback = function(m) { console.log("midiOne", m); };
+</code></pre>
+
       </section>
       <footer>
         <p>This project is maintained by <a href="https://github.com/amonks">amonks</a></p>
