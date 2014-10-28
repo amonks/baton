@@ -6,7 +6,7 @@
   <title>Processing.org</title>
 
   <script src="http://cdnjs.cloudflare.com/ajax/libs/processing.js/1.4.1/processing-api.min.js"></script>
-  <script src="/baton.js"></script>
+  <script src="/baton.min.js"></script>
 
   <style>
   html,
@@ -24,8 +24,8 @@
   <script id="script">
   var midiVal = 0;
   var midiNote = 0;
-  
-  
+
+
   baton = new Baton();
   baton.connect(function() {
     for (var i = 0; i < baton.inputs().length; i++) {
@@ -35,7 +35,7 @@
   baton.callback = function(m) {
     midiVal = m.value;
     midiNote = m.note;
-  }
+  };
 
 
   var width = window.innerWidth;

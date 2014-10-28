@@ -1,4 +1,4 @@
-# baton.js *v0.0.3*
+# baton.js *v1.0.0*
 
 baton.js is a javascript library to make it easy to handle midi input using the newish WebMIDI standard.
 
@@ -9,6 +9,16 @@ WebMIDI is supported in Chrome on OSX, but you have to enable it by visiting [ch
 
 On other browsers/OSes, you can use the [WebMIDI API Polyfill](https://github.com/cwilso/WebMIDIAPIShim), which in turn requires the [Jazz-Soft Jazz Plugin](http://jazz-soft.net/).
 
+
+## Examples
+
+You can check out the following example files to see how Baton works. Remember to enable the [web-midi flag](chrome://flags/#enable-web-midi) in Chrome.
+
+They all require a MIDI source. You can either plug in a controller, or use [MidiKeys](http://www.manyetas.com/creed/midikeys.html)
+
+*   [use Baton with processing.js](http://baton.monks.co/examples/processing.html) draws velocity-sized circle at note-position
+
+*   [use Baton to make sound with webPd](http://baton.monks.co/examples/sound.html) plays sine waves
 
 
 ## API
@@ -47,16 +57,6 @@ If baton is connected, `listen(input)` makes it start listening to the given inp
       Baton.listen(i);
     }
 
-
-## Examples
-
-You can check out the following example files to see how Baton works.
-
-They all require a MIDI source. You can either plug in a controller, or use [MidiKeys](http://www.manyetas.com/creed/midikeys.html)
-
-*   [use Baton with processing.js](/examples/processing.html) draws velocity-sized circle at note-position
-
-*   [use Baton to make sound with webPd](/examples/sound/) plays sine waves
 
 ### Handle all input sources identically
 
