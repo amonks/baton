@@ -1,16 +1,61 @@
 <!doctype html>
 <html>
 <head>
-	<title>Test of multiple inputs</title>
+	<title>Baton</title>
 	<script src="/vendor/WebMIDIAPI.js"></script>
-	<script src="midi.js">
+	<script src="baton.js">
 </script>
 </head>
 
 <body>
-	<div id="MIDIPlugin" style="position:absolute; visibility:hidden"></div>
 </body>
 <script>
-start();
+
+//
+// PATTERN ONE: handle multiple input sources identically
+//
+
+// instantiate object
+midiMulti = new Baton();
+
+// create a function to be called once the midi connection is made
+listenMulti = function() {
+    // listen to inputs 0 and 1
+    midiMulti.listen(0);
+    midiMulti.listen(1);
+};
+
+// connect to midi, set the function to be called when connected
+midiMulti.connect(listenMulti);
+
+// this callback is executed when a midi event is received.
+midiMulti.callback = function(m) { console.log("multi", m); };
+
+
+
+
+//
+// PATTERN TWO: handle multiple input sources differently
+//
+
+// instantiate objects
+midiZero = new Baton();
+midiOne = new Baton();
+
+// create functions to be called once the midi connections are made
+listenZero = function() { midiZero.listen(0); };
+listenOne = function() { midiOne.listen(1); };
+
+// connect to midi, set the functions to be called when connected
+midiZero.connect(listenZero);
+midiOne.connect(listenOne);
+
+// these callbacks are executed when a midi event is received.
+midiZero.callback = function(m) { console.log("midiZero", m); };
+midiOne.callback = function(m) { console.log("midiOne", m); };
+
+
+
+
 </script>
 </html>
