@@ -49,6 +49,14 @@ If baton is connected, `listen(input)` makes it start listening to the given inp
 
 ## Examples
 
+You can check out the following example files to see how Baton works.
+
+They all require a MIDI source. You can either plug in a controller, or use [MidiKeys](http://www.manyetas.com/creed/midikeys.html)
+
+*   [use Baton with processing.js](/examples/processing.html) draws velocity-sized circle at note-position
+
+*   [use Baton to make sound with webPd](/examples/sound/) plays sine waves
+
 ### Handle all input sources identically
 
 [online demo](http://baton.monks.co/examples/single.html)

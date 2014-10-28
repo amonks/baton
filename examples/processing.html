@@ -6,7 +6,7 @@
   <title>Processing.org</title>
 
   <script src="http://cdnjs.cloudflare.com/ajax/libs/processing.js/1.4.1/processing-api.min.js"></script>
-  <script src="http://baton.monks.co/baton.js"></script>
+  <script src="/baton.js"></script>
 
   <style>
   html,
@@ -22,15 +22,19 @@
 <body>
   <canvas id="sketch"></canvas>
   <script id="script">
-  /*global window, document, Processing */
   var midiVal = 0;
   var midiNote = 0;
   
+  
   baton = new Baton();
-  baton.connect( function() { baton.listen(0); } );
+  baton.connect(function() {
+    for (var i = 0; i < baton.inputs().length; i++) {
+      baton.listen(i);
+    }
+  });
   baton.callback = function(m) {
-  	midiVal = m.value;
-  	midiNote = m.note;
+    midiVal = m.value;
+    midiNote = m.note;
   }
 
 
@@ -40,21 +44,16 @@
   var halfHeight = height / 2;
 
 
-
-
   function drawerSketch(processing) {
-    'use strict';
-    // declare variables here
-
     // set size
     processing.size(width, height);
 
     // draw loop (runs each frame)
     processing.draw = function() {
-    	processing.background(0);
-	    processing.fill(150);
-    	processing.ellipse(processing.map(midiNote, 0, 127, 0, width), halfHeight, midiVal, midiVal);
-	    processing.fill(255);
+      processing.background(0);
+      processing.fill(150);
+      processing.ellipse(processing.map(midiNote, 0, 127, 0, width), halfHeight, midiVal, midiVal);
+      processing.fill(255);
     };
   }
 
