@@ -63,7 +63,13 @@ function Baton() {
   var handleMIDIMessage = function(ev) {
     var message = {};
     if (ev.data.length == 3) {
-      message.channel = parseInt(ev.data[0].toString(10)) - 143;
+      if (parseInt(ev.data[0].toString(10)) > 143) {
+        message.type = "note";
+        message.channel = parseInt(ev.data[0].toString(10)) - 143;
+      } else {
+        message.type = "control";
+        message.channel = parseInt(ev.data[0].toString(10)) - 32;
+      }
       message.note = parseInt(ev.data[1].toString(10));
       message.value = parseInt(ev.data[2].toString(10));
       console.log(message);

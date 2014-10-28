@@ -1,0 +1,34 @@
+<!doctype html>
+<html>
+<head>
+    <title>Baton</title>
+    <script src="baton.js">
+</script>
+</head>
+
+<body>
+</body>
+<script>
+
+//
+// ### handle specific input sources differently
+//
+
+// instantiate objects
+midiZero = new Baton();
+midiOne = new Baton();
+
+// create functions to be called once the midi connections are made
+listenZero = function() { midiZero.listen(0); };
+listenOne = function() { midiOne.listen(1); };
+
+// connect to midi, set the functions to be called when connected
+midiZero.connect(listenZero);
+midiOne.connect(listenOne);
+
+// these callbacks are executed when a midi event is received.
+midiZero.callback = function(m) { console.log("midiZero", m); };
+midiOne.callback = function(m) { console.log("midiOne", m); };
+
+</script>
+</html>

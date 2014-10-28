@@ -6,7 +6,8 @@ baton.js is a javascript library to make it easy to handle midi input using the 
 
 WebMIDI is supported in Chrome on OSX, but you have to enable it by visiting [chrome://flags/#enable-web-midi](chrome://flags/#enable-web-midi), clicking `enable`, and relaunching Chrome.
 
-On other browsers/OSes, you can use the [WebMIDI API Polyfill](https://github.com/cwilso/WebMIDIAPIShim), which in turn requires the [Jazz-Soft Jazz Plugin](http://jazz-soft.net/).
+On other browsers/OSes, you can use the [WebMIDI API Polyfill](https://github.com/cwilso/WebMIDIAPIShim), which in turn requires the [Jazz-Soft Jazz Plugin](http://jazz-soft.net/). ([example](http://baton.monks.co/examples/shim.html))
+
 
 ## API
 
@@ -50,6 +51,8 @@ If baton is connected, `listen(input)` makes it start listening to the given inp
 
 ### Handle all input sources identically
 
+[online demo](http://baton.monks.co/examples/single.html)
+
     // instantiate object
     midiMulti = new Baton();
 
@@ -68,6 +71,8 @@ If baton is connected, `listen(input)` makes it start listening to the given inp
     midiMulti.callback = function(m) { console.log("multi", m); };
 
 ### handle specific input sources differently
+
+[online demo](http://baton.monks.co/examples/multi.html)
 
     // instantiate objects
     midiZero = new Baton();

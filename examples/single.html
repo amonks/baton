@@ -2,7 +2,6 @@
 <html>
 <head>
     <title>Baton</title>
-    <!-- <script src="/vendor/WebMIDIAPI.js"></script> -->
     <script src="baton.js">
 </script>
 </head>
@@ -31,32 +30,6 @@ midiMulti.connect(listenMulti);
 
 // this callback is executed when a midi event is received.
 midiMulti.callback = function(m) { console.log("multi", m); };
-
-
-
-
-//
-// ### handle specific input sources differently
-//
-
-// instantiate objects
-midiZero = new Baton();
-midiOne = new Baton();
-
-// create functions to be called once the midi connections are made
-listenZero = function() { midiZero.listen(0); };
-listenOne = function() { midiOne.listen(1); };
-
-// connect to midi, set the functions to be called when connected
-midiZero.connect(listenZero);
-midiOne.connect(listenOne);
-
-// these callbacks are executed when a midi event is received.
-midiZero.callback = function(m) { console.log("midiZero", m); };
-midiOne.callback = function(m) { console.log("midiOne", m); };
-
-
-
 
 </script>
 </html>
