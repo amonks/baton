@@ -1,28 +1,22 @@
 <!doctype html>
 <html>
 <head>
-    <title>Baton</title>
-    <script src="baton.js">
-</script>
+  <title>Baton</title>
 </head>
 
 <body>
 </body>
+<script src="/baton.js"></script>
 <script>
-
-//
-// ### Handle all input sources identically
-//
-
 // instantiate object
 midiMulti = new Baton();
 
 // create a function to be called once the midi connection is made
 listenMulti = function() {
-    // listen to all inputs
-    for (var i = 0; i < listenMulti.inputs().length; i++) {
-      listenMulti.listen(i);
-    }
+  // listen to all inputs
+  for (var i = 0; i < listenMulti.inputs().length; i++) {
+    listenMulti.listen(i);
+  }
 };
 
 // connect to midi, set the function to be called when connected

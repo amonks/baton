@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="webpd-latest.min.js"></script>
+    <script src="/baton.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+  </head>
+  <body>
+    <script>
+      $.get('simple.pd', function(patchFile) {
+        var patch = Pd.compat.parse(patchFile);
+        patch.play();
+
+        baton = new Baton();
+        baton.connect(function() {
+          for (var i = 0; i < baton.inputs().length; i++) {
+            baton.listen(i);
+          }
+        });
+        baton.callback = function(m) {
+          patch.send('freq', m.note);
+          patch.send('gain', m.value);
+        }
+      });
+    </script>
+  </body>
+</html>

@@ -1,27 +1,14 @@
-<<<<<<< HEAD
-# baton.js
-
-baton.js is a javascript library to make it easy to handle midi input using the newish WebMIDI standard.
-
-=======
-# baton.js *v0.0.2*
+# baton.js *v0.0.3*
 
 baton.js is a javascript library to make it easy to handle midi input using the newish WebMIDI standard.
 
 
->>>>>>> release/v0.0.2
 ## webmidi
 
 WebMIDI is supported in Chrome on OSX, but you have to enable it by visiting [chrome://flags/#enable-web-midi](chrome://flags/#enable-web-midi), clicking `enable`, and relaunching Chrome.
 
-<<<<<<< HEAD
 On other browsers/OSes, you can use the [WebMIDI API Polyfill](https://github.com/cwilso/WebMIDIAPIShim), which in turn requires the [Jazz-Soft Jazz Plugin](http://jazz-soft.net/).
 
-## Examples
-
-### handle multiple input sources identically
-=======
-On other browsers/OSes, you can use the [WebMIDI API Polyfill](https://github.com/cwilso/WebMIDIAPIShim), which in turn requires the [Jazz-Soft Jazz Plugin](http://jazz-soft.net/). ([example](http://baton.monks.co/examples/shim.html))
 
 
 ## API
@@ -63,26 +50,27 @@ If baton is connected, `listen(input)` makes it start listening to the given inp
 
 ## Examples
 
+You can check out the following example files to see how Baton works.
+
+They all require a MIDI source. You can either plug in a controller, or use [MidiKeys](http://www.manyetas.com/creed/midikeys.html)
+
+*   [use Baton with processing.js](/examples/processing.html) draws velocity-sized circle at note-position
+
+*   [use Baton to make sound with webPd](/examples/sound/) plays sine waves
+
 ### Handle all input sources identically
 
 [online demo](http://baton.monks.co/examples/single.html)
->>>>>>> release/v0.0.2
 
     // instantiate object
     midiMulti = new Baton();
 
     // create a function to be called once the midi connection is made
     listenMulti = function() {
-<<<<<<< HEAD
-        // listen to inputs 0 and 1
-        midiMulti.listen(0);
-        midiMulti.listen(1);
-=======
         // listen to all inputs
         for (var i = 0; i < listenMulti.inputs().length; i++) {
           listenMulti.listen(i);
         }
->>>>>>> release/v0.0.2
     };
 
     // connect to midi, set the function to be called when connected
@@ -91,16 +79,9 @@ If baton is connected, `listen(input)` makes it start listening to the given inp
     // this callback is executed when a midi event is received.
     midiMulti.callback = function(m) { console.log("multi", m); };
 
-<<<<<<< HEAD
-
-
-
-### handle multiple input sources differently
-=======
 ### handle specific input sources differently
 
 [online demo](http://baton.monks.co/examples/multi.html)
->>>>>>> release/v0.0.2
 
     // instantiate objects
     midiZero = new Baton();
@@ -117,7 +98,3 @@ If baton is connected, `listen(input)` makes it start listening to the given inp
     // these callbacks are executed when a midi event is received.
     midiZero.callback = function(m) { console.log("midiZero", m); };
     midiOne.callback = function(m) { console.log("midiOne", m); };
-<<<<<<< HEAD
-=======
-
->>>>>>> release/v0.0.2
