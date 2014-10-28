@@ -122,7 +122,7 @@ function Baton() {
 
 
 
-  if (checkSupport() === true) {
+  if (API.checkSupport() === true) {
     return API;
   } else {
     console.log("Looks like your browser doesn't support WebMIDI.");
