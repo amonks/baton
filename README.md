@@ -1,4 +1,4 @@
-# baton.js *v1.0.2*
+# baton.js *v1.0.3*
 
 baton.js is a javascript library to make it easy to handle midi input using the newish WebMIDI standard.
 
@@ -65,21 +65,22 @@ If baton is connected, `listen(input)` makes it start listening to the given inp
 [online demo](http://baton.monks.co/examples/single.html)
 
     // instantiate object
-    midiMulti = new Baton();
+    baton = new Baton();
 
     // create a function to be called once the midi connection is made
     listenMulti = function() {
-        // listen to all inputs
-        for (var i = 0; i < listenMulti.inputs().length; i++) {
-          listenMulti.listen(i);
-        }
+      // listen to all inputs
+      for (var i = 0; i < baton.inputs().length; i++) {
+        baton.listen(i);
+      }
     };
 
+
     // connect to midi, set the function to be called when connected
-    midiMulti.connect(listenMulti);
+    baton.connect(listenMulti);
 
     // this callback is executed when a midi event is received.
-    midiMulti.callback = function(m) { console.log("multi", m); };
+    baton.callback = function(m) { console.log("multi", m); };
 
 ### handle specific input sources differently
 
