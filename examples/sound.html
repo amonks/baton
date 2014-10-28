@@ -7,7 +7,7 @@
   </head>
   <body>
     <script>
-      $.get('simple.pd', function(patchFile) {
+      $.get('sound.pd', function(patchFile) {
         var patch = Pd.compat.parse(patchFile);
         patch.play();
 
