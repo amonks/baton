@@ -23,13 +23,11 @@ They all require a MIDI source. You can either plug in a controller, or use [Mid
 
 ## API
 
-### `callback`
+### `checkSupport()`
 
-`callback` stores an optional callback fucntion which is executed when midi input is received.
+`checkSupport()` returns true if the browser supports WebMIDI or false if the browser does not.
 
-    Baton.callback = function(midi) { console.log(midi); };
-
-### `connect(callback)`
+### `connect(function callback)`
 
 `connect(callback)` connects Baton to MIDI, and calls an optional callback function once it's connected.
 
@@ -45,7 +43,21 @@ If baton is connected, `inputs()` returns an array of the available midi inputs.
 
     Baton.inputs();  # ["Bus 1", "MidiKeys"]
 
-### `listen(input)`
+### `send(int output, object data)`
+
+If baton is connected, `send(output, data)` sends a data packet out of the given output.
+
+    var data = {
+      type: "note",       // also accepts "control"
+      channel: 1,
+      note: 100,
+      value: 127
+    };
+    for (var o = 0; o < Baton.outputs().length; o++) {
+      Baton.send(o, data);
+    }
+
+### `listen(int input)`
 
 If baton is connected, `listen(input)` makes it start listening to the given input.
 
@@ -56,6 +68,12 @@ If baton is connected, `listen(input)` makes it start listening to the given inp
     for (var i = 0; i < Baton.inputs().length; i++) {
       Baton.listen(i);
     }
+
+### `callback`
+
+`callback` stores an optional callback fucntion which is executed when midi input is received.
+
+    Baton.callback = function(midi) { console.log(midi); };
 
 
 ## Design Patterns
