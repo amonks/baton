@@ -22,6 +22,7 @@ They all require a MIDI source. You can either plug in a controller, or use [Mid
 
 *   [use Baton to control an external midi instrument](http://baton.monks.co/examples/send.html) sends midi notes
 
+*   [use the WebMIDIAPI shim](http://baton.monks.co/examples/shim.html) uses the WebMIDIAPI shim to add midi functionality to browsers that don't support WebMIDI
 
 ## API
 

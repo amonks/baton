@@ -6,6 +6,11 @@
     <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
   </head>
   <body>
+    <h1 id="sound">Sound</h1>
+
+    <p>This example uses a sends midi input to a webpd patch which plays sound based on the incoming midi signals. </p>
+
+    <p>Check your browser&#8217;s developer console to see feedback from Baton.</p>
     <script>
       $.get('sound.pd', function(patchFile) {
         var patch = Pd.compat.parse(patchFile);
