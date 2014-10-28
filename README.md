@@ -1,4 +1,4 @@
-# baton.js *v1.1.1*
+# baton.js *v1.1.2*
 
 baton.js is a javascript library to make it easy to handle midi input and output using the newish WebMIDI standard.
 
@@ -16,7 +16,7 @@ You can check out the following example files to see how Baton works. Remember t
 
 They all require a MIDI source. You can either plug in a controller, or use [MidiKeys](http://www.manyetas.com/creed/midikeys.html)
 
-*   [use Baton with processing.js](http://baton.monks.co/examples/processing.html) draws velocity-sized circle at note-position
+*   [use Baton with processing.js](http://baton.monks.co/examples/processing.html) draws velocity-sized circle at note-position, at a color set from midi control signals
 
 *   [use Baton to make sound with webPd](http://baton.monks.co/examples/sound.html) plays sine waves
 
