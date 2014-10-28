@@ -1,0 +1,30 @@
+{
+  "name": "baton",
+  "version": "1.0.4",
+  "homepage": "http://baton.monks.co",
+  "authors": [
+    "Andrew Monks <a@monks.co> (http://monks.co)"
+  ],
+  "description": "baton.js is a javascript library to make it easy to handle midi input using the newish WebMIDI standard.",
+  "main": "baton.js",
+  "moduleType": [
+    "globals"
+  ],
+  "keywords": [
+    "midi",
+    "webmidi"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests",
+    "javascripts",
+    "stylesheets",
+    "CNAME",
+    "index.html",
+    "params.json"
+  ]
+}
