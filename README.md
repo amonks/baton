@@ -58,6 +58,8 @@ If baton is connected, `listen(input)` makes it start listening to the given inp
     }
 
 
+## Design Patterns
+
 ### Handle all input sources identically
 
 [online demo](http://baton.monks.co/examples/single.html)
