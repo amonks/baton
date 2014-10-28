@@ -16,7 +16,7 @@
     <div class="wrapper">
       <header>
         <h1>Baton</h1>
-        <p>tiny javascript library for midi input in the browser</p>
+        <p>tiny javascript library for midi input in the any browser/os with webmidi</p>
 
         <p class="view"><a href="https://github.com/amonks/baton">View the Project on GitHub <small>amonks/baton</small></a></p>
 
@@ -29,7 +29,7 @@
       </header>
       <section>
         <h1>
-<a name="batonjs-v100" class="anchor" href="#batonjs-v003"><span class="octicon octicon-link"></span></a>baton.js <em>v1.0.4</em>
+<a name="batonjs-v104" class="anchor" href="#batonjs-v104"><span class="octicon octicon-link"></span></a>baton.js <em>v1.0.4</em>
 </h1>
 
 <p>baton.js is a javascript library to make it easy to handle midi input using the newish WebMIDI standard.</p>
@@ -44,13 +44,13 @@
 <h2>
 <a name="examples" class="anchor" href="#examples"><span class="octicon octicon-link"></span></a>Examples</h2>
 
-<p>You can check out the following example files to see how Baton works.</p>
+<p>You can check out the following example files to see how Baton works. Remember to enable the web-midi flag in Chrome.</p>
 
 <p>They all require a MIDI source. You can either plug in a controller, or use <a href="http://www.manyetas.com/creed/midikeys.html">MidiKeys</a></p>
 
 <ul>
-<li><p><a href="/examples/processing.html">use Baton with processing.js</a> draws velocity-sized circle at note-position</p></li>
-<li><p><a href="/examples/sound.html">use Baton to make sound with webPd</a> plays sine waves</p></li>
+<li><p><a href="http://baton.monks.co/examples/processing.html">use Baton with processing.js</a> draws velocity-sized circle at note-position</p></li>
+<li><p><a href="http://baton.monks.co/examples/sound.html">use Baton to make sound with webPd</a> plays sine waves</p></li>
 </ul>
 
 <h2>
@@ -107,28 +107,28 @@ for (var i = 0; i &lt; Baton.inputs().length; i++) {
 <h2>
 <a name="design-patterns" class="anchor" href="#design-patterns"><span class="octicon octicon-link"></span></a>Design Patterns</h2>
 
-
 <h3>
 <a name="handle-all-input-sources-identically" class="anchor" href="#handle-all-input-sources-identically"><span class="octicon octicon-link"></span></a>Handle all input sources identically</h3>
 
 <p><a href="http://baton.monks.co/examples/single.html">online demo</a></p>
 
 <pre><code>// instantiate object
-midiMulti = new Baton();
+baton = new Baton();
 
 // create a function to be called once the midi connection is made
 listenMulti = function() {
-    // listen to all inputs
-    for (var i = 0; i &lt; listenMulti.inputs().length; i++) {
-      listenMulti.listen(i);
-    }
+  // listen to all inputs
+  for (var i = 0; i &lt; baton.inputs().length; i++) {
+    baton.listen(i);
+  }
 };
 
+
 // connect to midi, set the function to be called when connected
-midiMulti.connect(listenMulti);
+baton.connect(listenMulti);
 
 // this callback is executed when a midi event is received.
-midiMulti.callback = function(m) { console.log("multi", m); };
+baton.callback = function(m) { console.log("multi", m); };
 </code></pre>
 
 <h3>
@@ -152,7 +152,6 @@ midiOne.connect(listenOne);
 midiZero.callback = function(m) { console.log("midiZero", m); };
 midiOne.callback = function(m) { console.log("midiOne", m); };
 </code></pre>
-
       </section>
       <footer>
         <p>This project is maintained by <a href="https://github.com/amonks">amonks</a></p>
@@ -160,6 +159,6 @@ midiOne.callback = function(m) { console.log("midiOne", m); };
       </footer>
     </div>
     <script src="javascripts/scale.fix.js"></script>
-
+    
   </body>
 </html>
