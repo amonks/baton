@@ -2,6 +2,7 @@
 
 baton.js is a javascript library to make it easy to handle midi input using the newish WebMIDI standard.
 
+
 ## webmidi
 
 WebMIDI is supported in Chrome on OSX, but you have to enable it by visiting [chrome://flags/#enable-web-midi](chrome://flags/#enable-web-midi), clicking `enable`, and relaunching Chrome.
@@ -44,7 +45,6 @@ If baton is connected, `listen(input)` makes it start listening to the given inp
     for (var i = 0; i < Baton.inputs().length; i++) {
       Baton.listen(i);
     }
-
 
 
 ## Examples
