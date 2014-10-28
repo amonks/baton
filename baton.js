@@ -9,7 +9,12 @@ function Baton() {
 
   API.callback = null;
 
-  API.inputs = null;
+  var inputs = null;
+
+  API.connect = function(callback) {
+    connectCallback = callback;
+    navigator.requestMIDIAccess().then(success, failure);
+  };
 
   API.check = function() {
     if ( midi === null ) {
@@ -19,9 +24,8 @@ function Baton() {
     }
   };
 
-  API.connect = function(callback) {
-    connectCallback = callback;
-    navigator.requestMIDIAccess().then(success, failure);
+  API.inputs = function() {
+    return inputs;
   };
 
   API.listen = function(i) {
@@ -40,7 +44,7 @@ function Baton() {
     for (var i in midi.inputs()) {
       out.push( midi.inputs()[i].name );
     }
-    API.inputs = out;
+    inputs = out;
     console.log(out);
   };
 

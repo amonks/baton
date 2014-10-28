@@ -1,9 +1,9 @@
 <!doctype html>
 <html>
 <head>
-	<title>Baton</title>
-	<script src="/vendor/WebMIDIAPI.js"></script>
-	<script src="baton.js">
+    <title>Baton</title>
+    <!-- <script src="/vendor/WebMIDIAPI.js"></script> -->
+    <script src="baton.js">
 </script>
 </head>
 
@@ -12,7 +12,7 @@
 <script>
 
 //
-// PATTERN ONE: handle multiple input sources identically
+// ### Handle all input sources identically
 //
 
 // instantiate object
@@ -20,9 +20,10 @@ midiMulti = new Baton();
 
 // create a function to be called once the midi connection is made
 listenMulti = function() {
-    // listen to inputs 0 and 1
-    midiMulti.listen(0);
-    midiMulti.listen(1);
+    // listen to all inputs
+    for (var i = 0; i < listenMulti.inputs().length; i++) {
+      listenMulti.listen(i);
+    }
 };
 
 // connect to midi, set the function to be called when connected
@@ -35,7 +36,7 @@ midiMulti.callback = function(m) { console.log("multi", m); };
 
 
 //
-// PATTERN TWO: handle multiple input sources differently
+// ### handle specific input sources differently
 //
 
 // instantiate objects
