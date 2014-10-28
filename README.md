@@ -1,4 +1,4 @@
-# baton.js
+# baton.js *v0.0.2*
 
 baton.js is a javascript library to make it easy to handle midi input using the newish WebMIDI standard.
 
