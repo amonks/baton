@@ -19,6 +19,7 @@ sender = function() {
     console.log("note on");
     for (var o = 0; o < baton.outputs().length; o++) {
       var data = {
+        type: "note",
         channel: 1,
         note: 100,
         value: 127
@@ -31,6 +32,7 @@ sender = function() {
       console.log("note off");
       for (var o = 0; o < baton.outputs().length; o++) {
         var data = {
+          type: "note",
           channel: 1,
           note: 100,
           value: 0

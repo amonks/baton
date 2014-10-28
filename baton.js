@@ -14,6 +14,10 @@ function Baton() {
   var outputs = null;
 
 
+  API.checkSupport = function() {
+    var supportsWebMIDI = ( function () { try { return !! navigator.requestMIDIAccess; } catch( e ) { return false; } } )();
+    return supportsWebMIDI;
+  };
 
   API.connect = function(callback) {
     connectCallback = callback;
@@ -48,7 +52,14 @@ function Baton() {
   API.send = function(o, d) {
     if (API.check() === true) {
       var data = [];
-      data.push(144 + d.channel);
+      switch (d.type) {
+        case "control":
+          data.push(175 + d.channel);
+          break;
+        default:
+          data.push(143 + d.channel);
+          break;
+      }
       data.push(d.note);
       data.push(d.value);
       midi.outputs()[o].send(data);
@@ -110,8 +121,8 @@ function Baton() {
 
 
 
-  var supportsWebMIDI = ( function () { try { return !! navigator.requestMIDIAccess; } catch( e ) { return false; } } )();
-  if (supportsWebMIDI === true) {
+
+  if (checkSupport() === true) {
     return API;
   } else {
     console.log("Looks like your browser doesn't support WebMIDI.");

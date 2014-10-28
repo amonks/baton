@@ -101,3 +101,45 @@ If baton is connected, `listen(input)` makes it start listening to the given inp
     // these callbacks are executed when a midi event is received.
     midiZero.callback = function(m) { console.log("midiZero", m); };
     midiOne.callback = function(m) { console.log("midiOne", m); };
+
+### send
+
+[online demo](http://baton.monks.co/examples/send.html)
+
+    // instantiate object
+    baton = new Baton();
+
+    // create a function to be called once the midi connection is made
+    sender = function() {
+      // every 5 seconds
+      setInterval(function() {
+        // turn the note on
+        console.log("note on");
+        for (var o = 0; o < baton.outputs().length; o++) {
+          var data = {
+            type: "note",
+            channel: 1,
+            note: 100,
+            value: 127
+          };
+          baton.send(o, data);
+        }
+        // then one second later
+        setTimeout(function() {
+          // turn the note off
+          console.log("note off");
+          for (var o = 0; o < baton.outputs().length; o++) {
+            var data = {
+              type: "note",
+              channel: 1,
+              note: 100,
+              value: 0
+            };
+            baton.send(o, data);
+          }
+        }, 1000);
+      }, 2000);
+    };
+
+    // connect to midi, set the function to be called when connected
+    baton.connect(sender);
