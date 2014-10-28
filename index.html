@@ -1,0 +1,164 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Baton by amonks</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Baton</h1>
+        <p>tiny javascript library for midi input in the any browser/os with webmidi</p>
+
+        <p class="view"><a href="https://github.com/amonks/baton">View the Project on GitHub <small>amonks/baton</small></a></p>
+
+
+        <ul>
+          <li><a href="https://github.com/amonks/baton/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/amonks/baton/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/amonks/baton">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h1>
+<a name="batonjs-v104" class="anchor" href="#batonjs-v104"><span class="octicon octicon-link"></span></a>baton.js <em>v1.0.4</em>
+</h1>
+
+<p>baton.js is a javascript library to make it easy to handle midi input using the newish WebMIDI standard.</p>
+
+<h2>
+<a name="webmidi" class="anchor" href="#webmidi"><span class="octicon octicon-link"></span></a>webmidi</h2>
+
+<p>WebMIDI is supported in Chrome on OSX, but you have to enable it by visiting chrome://flags/#enable-web-midi, clicking <code>enable</code>, and relaunching Chrome.</p>
+
+<p>On other browsers/OSes, you can use the <a href="https://github.com/cwilso/WebMIDIAPIShim">WebMIDI API Polyfill</a>, which in turn requires the <a href="http://jazz-soft.net/">Jazz-Soft Jazz Plugin</a>.</p>
+
+<h2>
+<a name="examples" class="anchor" href="#examples"><span class="octicon octicon-link"></span></a>Examples</h2>
+
+<p>You can check out the following example files to see how Baton works. Remember to enable the web-midi flag in Chrome.</p>
+
+<p>They all require a MIDI source. You can either plug in a controller, or use <a href="http://www.manyetas.com/creed/midikeys.html">MidiKeys</a></p>
+
+<ul>
+<li><p><a href="http://baton.monks.co/examples/processing.html">use Baton with processing.js</a> draws velocity-sized circle at note-position</p></li>
+<li><p><a href="http://baton.monks.co/examples/sound.html">use Baton to make sound with webPd</a> plays sine waves</p></li>
+</ul>
+
+<h2>
+<a name="api" class="anchor" href="#api"><span class="octicon octicon-link"></span></a>API</h2>
+
+<h3>
+<a name="callback" class="anchor" href="#callback"><span class="octicon octicon-link"></span></a><code>callback</code>
+</h3>
+
+<p><code>callback</code> stores an optional callback fucntion which is executed when midi input is received.</p>
+
+<pre><code>Baton.callback = function(midi) { console.log(midi); };
+</code></pre>
+
+<h3>
+<a name="connectcallback" class="anchor" href="#connectcallback"><span class="octicon octicon-link"></span></a><code>connect(callback)</code>
+</h3>
+
+<p><code>connect(callback)</code> connects Baton to MIDI, and calls an optional callback function once it's connected.</p>
+
+<pre><code>Baton.connect( Baton.print() );
+</code></pre>
+
+<h3>
+<a name="check" class="anchor" href="#check"><span class="octicon octicon-link"></span></a><code>check()</code>
+</h3>
+
+<p><code>check()</code> returns <code>true</code> if Baton has an active midi connection, and <code>false</code> if it doesn't.</p>
+
+<h3>
+<a name="inputs" class="anchor" href="#inputs"><span class="octicon octicon-link"></span></a><code>inputs()</code>
+</h3>
+
+<p>If baton is connected, <code>inputs()</code> returns an array of the available midi inputs.</p>
+
+<pre><code>Baton.inputs();  # ["Bus 1", "MidiKeys"]
+</code></pre>
+
+<h3>
+<a name="listeninput" class="anchor" href="#listeninput"><span class="octicon octicon-link"></span></a><code>listen(input)</code>
+</h3>
+
+<p>If baton is connected, <code>listen(input)</code> makes it start listening to the given input.</p>
+
+<pre><code>// listen to input 0
+Baton.listen(0);
+
+// listen to all inputs
+for (var i = 0; i &lt; Baton.inputs().length; i++) {
+  Baton.listen(i);
+}
+</code></pre>
+
+<h2>
+<a name="design-patterns" class="anchor" href="#design-patterns"><span class="octicon octicon-link"></span></a>Design Patterns</h2>
+
+<h3>
+<a name="handle-all-input-sources-identically" class="anchor" href="#handle-all-input-sources-identically"><span class="octicon octicon-link"></span></a>Handle all input sources identically</h3>
+
+<p><a href="http://baton.monks.co/examples/single.html">online demo</a></p>
+
+<pre><code>// instantiate object
+baton = new Baton();
+
+// create a function to be called once the midi connection is made
+listenMulti = function() {
+  // listen to all inputs
+  for (var i = 0; i &lt; baton.inputs().length; i++) {
+    baton.listen(i);
+  }
+};
+
+
+// connect to midi, set the function to be called when connected
+baton.connect(listenMulti);
+
+// this callback is executed when a midi event is received.
+baton.callback = function(m) { console.log("multi", m); };
+</code></pre>
+
+<h3>
+<a name="handle-specific-input-sources-differently" class="anchor" href="#handle-specific-input-sources-differently"><span class="octicon octicon-link"></span></a>handle specific input sources differently</h3>
+
+<p><a href="http://baton.monks.co/examples/multi.html">online demo</a></p>
+
+<pre><code>// instantiate objects
+midiZero = new Baton();
+midiOne = new Baton();
+
+// create functions to be called once the midi connections are made
+listenZero = function() { midiZero.listen(0); };
+listenOne = function() { midiOne.listen(1); };
+
+// connect to midi, set the functions to be called when connected
+midiZero.connect(listenZero);
+midiOne.connect(listenOne);
+
+// these callbacks are executed when a midi event is received.
+midiZero.callback = function(m) { console.log("midiZero", m); };
+midiOne.callback = function(m) { console.log("midiOne", m); };
+</code></pre>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/amonks">amonks</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+
+  </body>
+</html>
