@@ -19,11 +19,17 @@ You can check out the following example files to see how Baton works. Remember t
 
 They all require a MIDI source. You can either plug in a controller, or use [MidiKeys](http://www.manyetas.com/creed/midikeys.html)
 
+*   [Use baton with a single input source callback](http://baton.monks.co/examples/single.html) shows basic midi input, with all controllers handled by the same function.
+
+*   [use Baton with multiple input source callbacks](http://baton.monks.co/examples/multi.html) uses different functions to handle input from two different midi sources.
+
 *   [use Baton with processing.js](http://baton.monks.co/examples/processing.html) draws velocity-sized circle at note-position, at a color set from midi control signals
 
 *   [use Baton to make sound with webPd](http://baton.monks.co/examples/sound.html) plays sine waves
 
 *   [use Baton to control an external midi instrument](http://baton.monks.co/examples/send.html) sends midi notes
+
+*   [use Baton with threejs](http://baton.monks.co/examples/3d.html) uses midi input to affect a 3d scene
 
 *   [use the WebMIDIAPI shim](http://baton.monks.co/examples/shim.html) uses the WebMIDIAPI shim to add midi functionality to browsers that don't support WebMID3
 
