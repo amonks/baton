@@ -17,6 +17,8 @@
   "license": "MIT",
   "ignore": [
     "**/.*",
+    "_site",
+    "_includes",
     "_config.yml",
     "javascripts",
     "stylesheets",
