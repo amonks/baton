@@ -1,0 +1,35 @@
+<!doctype html>
+<html>
+<head>
+    <title>Baton</title>
+    <script src="/baton.min.js">
+</script>
+</head>
+
+<body>
+<h1 id="multiinput">Multi Input</h1>
+
+<p>This example uses a different handler function for midi inputs 0 and 1. </p>
+
+<p>Check your browser&#8217;s developer console to see feedback from Baton.</p>
+</body>
+<script>
+
+// instantiate objects
+midiZero = new Baton();
+midiOne = new Baton();
+
+// create functions to be called once the midi connections are made
+listenZero = function() { midiZero.listen(0); };
+listenOne = function() { midiOne.listen(1); };
+
+// connect to midi, set the functions to be called when connected
+midiZero.connect(listenZero);
+midiOne.connect(listenOne);
+
+// these callbacks are executed when a midi event is received.
+midiZero.callback = function(m) { console.log("midiZero", m); };
+midiOne.callback = function(m) { console.log("midiOne", m); };
+
+</script>
+</html>
