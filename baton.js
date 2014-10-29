@@ -104,12 +104,37 @@ function Baton() {
   var handleMIDIMessage = function(ev) {
     var message = {};
     if (ev.data.length == 3) {
-      if (parseInt(ev.data[0].toString(10)) > 175) {
-        message.type = "control";
-        message.channel = parseInt(ev.data[0].toString(10)) - 175;
-      } else {
-        message.type = "note";
-        message.channel = parseInt(ev.data[0].toString(10)) - 143;
+      var firstBit = ev.data[0];
+      console.log("firstBit", firstBit);
+      switch (true) {
+        case (firstBit >= 128 && firstBit < 144):
+          message.type = "noteoff";
+          message.channel = firstBit - 127;
+          break;
+        case (firstBit >= 144 && firstBit < 160):
+          message.type = "note";
+          message.channel = firstBit - 143;
+          break;
+        case (firstBit >= 160 && firstBit < 176):
+          message.type = "polypress";
+          message.channel = firstBit - 159;
+          break;
+        case (firstBit >= 176 && firstBit < 192):
+          message.type = "control";
+          message.channel = firstBit - 175;
+          break;
+        case (firstBit >= 192 && firstBit < 208):
+          message.type = "program";
+          message.channel = firstBit - 191;
+          break;
+        case (firstBit >= 208 && firstBit < 224):
+          message.type = "aftertouch";
+          message.channel = firstBit - 207;
+          break;
+        case (firstBit >= 224):
+          message.type = "pitchbend";
+          message.channel = firstBit - 223;
+          break;
       }
       message.note = parseInt(ev.data[1].toString(10));
       message.value = parseInt(ev.data[2].toString(10));
