@@ -1,4 +1,4 @@
-# baton.js *v1.1.3*
+# baton.js *v1.2.0*
 
 baton.js is a javascript library to make it easy to handle midi input and output using the newish WebMIDI standard.
 
@@ -26,6 +26,24 @@ They all require a MIDI source. You can either plug in a controller, or use [Mid
 
 ## API
 
+### Types
+
+Here's a list of midi event types supported by baton.
+
+*   noteoff
+
+*   note
+
+*   polypress
+
+*   control
+
+*   program
+
+*   aftertouch
+
+*   pitchbend
+
 ### `checkSupport()`
 
 `checkSupport()` returns true if the browser supports WebMIDI or false if the browser does not.
@@ -51,7 +69,7 @@ If baton is connected, `inputs()` returns an array of the available midi inputs.
 If baton is connected, `send(output, data)` sends a data packet out of the given output.
 
     var data = {
-      type: "note",       // also accepts "control"
+      type: "note",
       channel: 1,
       note: 100,
       value: 127
