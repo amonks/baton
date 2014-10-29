@@ -53,11 +53,27 @@ function Baton() {
     if (API.check() === true) {
       var data = [];
       switch (d.type) {
+        case "noteoff":
+          data.push(127 + d.channel);
+          break;
+        default:
+        case "note":
+          data.push(143 + d.channel);
+          break;
+        case "polypress":
+          data.push(159 + d.channel);
+          break;
         case "control":
           data.push(175 + d.channel);
           break;
-        default:
-          data.push(143 + d.channel);
+        case "program":
+          data.push(191 + d.channel);
+          break;
+        case "aftertouch":
+          data.push(207 + d.channel);
+          break;
+        case "pitchbend":
+          data.push(223 + d.channel);
           break;
       }
       data.push(d.note);
