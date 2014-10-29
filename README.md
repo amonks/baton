@@ -169,7 +169,7 @@ If baton is connected, `listen(input)` makes it start listening to the given inp
           console.log("note off");
           for (var o = 0; o < baton.outputs().length; o++) {
             var data = {
-              type: "note",
+              type: "noteoff",
               channel: 1,
               note: 100,
               value: 0
