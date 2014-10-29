@@ -9,6 +9,9 @@ WebMIDI is supported in Chrome on OSX, but you have to enable it by visiting [ch
 
 On other browsers/OSes, you can use the [WebMIDI API Polyfill](https://github.com/cwilso/WebMIDIAPIShim), which in turn requires the [Jazz-Soft Jazz Plugin](http://jazz-soft.net/).
 
+### Caveat
+
+In my experience, I need to relaunch Chrome every time I plug in a new MIDI source or (or open a DAW, or whatever) before it's recognized.
 
 ## Examples
 
@@ -169,7 +172,7 @@ If baton is connected, `listen(input)` makes it start listening to the given inp
           console.log("note off");
           for (var o = 0; o < baton.outputs().length; o++) {
             var data = {
-              type: "note",
+              type: "noteoff",
               channel: 1,
               note: 100,
               value: 0
