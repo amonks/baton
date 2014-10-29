@@ -1,3 +1,6 @@
+---
+
+---
 
 <!doctype html>
 <html>
@@ -29,8 +32,8 @@
         </ul>
       </header>
       <section>
-        {% capture my-include %}{% include README.md %}{% endcapture %}
-        {{ my-include | markdownify }}
+        {% capture readme %}{% include README.md %}{% endcapture %}
+        {{ readme | markdownify }}
       </section>
       <footer>
         <p>This project is maintained by <a href="https://github.com/amonks">amonks</a></p>

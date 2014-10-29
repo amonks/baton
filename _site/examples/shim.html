@@ -1,0 +1,38 @@
+<!doctype html>
+<html>
+<head>
+    <title>Baton</title>
+    <script src="/vendor/WebMIDIAPI.js"></script>
+    <script src="baton.min.js">
+</script>
+</head>
+
+<body>
+<h1 id="shim">Shim</h1>
+
+<p>This example uses the <a href="https://github.com/cwilso/WebMIDIAPIShim">WebMIDIAPI polyfil</a> to replicate the functionality of webmidi in browsers that don&#8217;t support it. It requires the <a href="http://jazz-soft.net/">Jazz-Soft Jazz Plugin</a>.</p>
+
+<p>Check your browser&#8217;s developer console to see feedback from Baton.</p>
+</body>
+<script>
+
+// instantiate object
+midiMulti = new Baton();
+
+// create a function to be called once the midi connection is made
+listenMulti = function() {
+    // listen to all inputs
+    for (var i = 0; i < listenMulti.inputs().length; i++) {
+      listenMulti.listen(i);
+    }
+};
+
+// connect to midi, set the function to be called when connected
+midiMulti.connect(listenMulti);
+
+// this callback is executed when a midi event is received.
+midiMulti.callback = function(m) { console.log("multi", m); };
+
+
+</script>
+</html>
