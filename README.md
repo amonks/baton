@@ -1,4 +1,4 @@
-# baton.js *v1.2.5*
+# baton.js *v1.2.6*
 
 baton.js is a javascript library to make it easy to handle midi input and output using the newish WebMIDI standard.
 
@@ -33,7 +33,7 @@ They all require a MIDI source. You can either plug in a controller, or use [Mid
 
 *   [use the WebMIDIAPI shim](http://baton.monks.co/examples/shim.html) uses the WebMIDIAPI shim to add midi functionality to browsers that don't support WebMID3
 
-*   [route midi over WebRTC](http://baton.monks.co/examples/rtc.html) uses webrtc to send midi data peer-to-peer.
+*   [route midi over WebRTC](http://baton.monks.co/examples/rtc.html) uses webrtc to send midi data peer-to-peer over the internet. Use your controller to control your friend's synth over the internet.
 
 ## API
 
