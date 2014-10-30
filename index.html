@@ -32,7 +32,7 @@
         </ul>
       </header>
       <section>
-        {% capture readme %}{% include README.md %}{% endcapture %}
+        {% capture readme %}{% include_relative README.md %}{% endcapture %}
         {{ readme | markdownify }}
       </section>
       <footer>

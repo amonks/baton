@@ -1,0 +1,198 @@
+<!DOCTYPE HTML>
+<html lang="en">
+
+<head>
+    <title>PeerJS chat demo</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="Content-Language" content="en-us">
+
+</head>
+
+<body>
+    <a href="https://github.com/peers/peerjs">
+        <img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_orange_ff7600.png" alt="Fork me on GitHub">
+    </a>
+
+    <div id="actions">
+        Your PeerJS ID is
+        <span id="pid"></span>
+        <br>Connect to a peer:
+        <input type="text" id="rid" placeholder="Someone else's id">
+        <input class="button" type="button" value="Connect" id="connect">
+        <br>
+        <br>
+
+        <button id="close">Close selected connections</button>
+    </div>
+
+    <div id="wrap">
+        <div id="connections">
+            <span class="filler">You have not yet made any connections.</span>
+        </div>
+        <div class="clear"></div>
+    </div>
+</body>
+
+<script src="/baton.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+<script src="http://cdn.peerjs.com/0.3/peer.js"></script>
+<script>
+var peer = new Peer({
+    key: 'yfzyrd6j61cnb3xr',
+
+    // Set highest debug level (log everything!).
+    debug: 3,
+
+    // Set a logging function:
+    logFunction: function() {
+        var copy = Array.prototype.slice.call(arguments).join(' ');
+        $('.log').append(copy + '<br>');
+    },
+});
+var connectedPeers = {};
+
+// Show this peer's ID.
+peer.on('open', function(id) {
+    $('#pid').text(id);
+});
+
+// Await connections from others
+peer.on('connection', connect);
+
+// Handle a connection object.
+function connect(c) {
+    // Handle a chat connection.
+    if (c.label === 'chat') {
+        var chatbox = $('<div></div>').addClass('connection').addClass('active').attr('id', c.peer);
+        var header = $('<h1></h1>').html('Chat with <strong>' + c.peer + '</strong>');
+        var messages = $('<div><em>Peer connected.</em></div>').addClass('messages');
+        chatbox.append(header);
+        chatbox.append(messages);
+
+        // Select connection handler.
+        chatbox.on('click', function() {
+            if ($(this).attr('class').indexOf('active') === -1) {
+                $(this).addClass('active');
+            } else {
+                $(this).removeClass('active');
+            }
+        });
+        $('.filler').hide();
+        $('#connections').append(chatbox);
+
+        c.on('data', function(data) {
+            for (var o in baton.outputs()) {
+                console.log("sending", JSON.parse(data));
+                baton.send(o, JSON.parse(data));
+            }
+        });
+        c.on('close', function() {
+            alert(c.peer + ' has left the chat.');
+            chatbox.remove();
+            if ($('.connection').length === 0) {
+                $('.filler').show();
+            }
+            delete connectedPeers[c.peer];
+        });
+    }
+}
+
+
+
+var baton = new Baton();
+baton.connect(function() {
+    for (var i in baton.inputs()) {
+        baton.listen(i);
+    }
+});
+baton.callback = function(msg) {
+    sendThing(msg);
+    console.log(msg);
+};
+
+function doNothing(e) {
+    e.preventDefault();
+    e.stopPropagation();
+}
+
+// Connect to a peer
+$('#connect').click(function() {
+    requestedPeer = $('#rid').val();
+    if (!connectedPeers[requestedPeer]) {
+        // Create 2 connections, one labelled chat and another labelled file.
+        var c = peer.connect(requestedPeer, {
+            label: 'chat',
+            serialization: 'none',
+            reliable: false,
+            metadata: {
+                message: 'hi i want to chat with you!'
+            }
+        });
+        c.on('open', function() {
+            connect(c);
+        });
+        c.on('error', function(err) {
+            alert(err);
+        });
+        var f = peer.connect(requestedPeer, {
+            label: 'file'
+        });
+        f.on('open', function() {
+            connect(f);
+        });
+        f.on('error', function(err) {
+            alert(err);
+        });
+    }
+    connectedPeers[requestedPeer] = 1;
+});
+
+// Close a connection.
+$('#close').click(function() {
+    eachActiveConnection(function(c) {
+        c.close();
+    });
+});
+
+// Send a chat message to all active connections.
+function sendThing(thing) {
+    // For each active connection, send the message.
+    var msg = thing;
+    eachActiveConnection(function(c, $c) {
+        if (c.label === 'chat') {
+            c.send(JSON.stringify(msg));
+            // $c.find('.messages').append('<div><span class="you">You: </span>' + msg + '</div>');
+        }
+    });
+}
+
+// Goes through each active peer and calls FN on its connections.
+function eachActiveConnection(fn) {
+    var actives = $('.active');
+    var checkedIds = {};
+    actives.each(function() {
+        var peerId = $(this).attr('id');
+
+        if (!checkedIds[peerId]) {
+            var conns = peer.connections[peerId];
+            for (var i = 0, ii = conns.length; i < ii; i += 1) {
+                var conn = conns[i];
+                fn(conn, $(this));
+            }
+        }
+
+        checkedIds[peerId] = 1;
+    });
+}
+
+
+// Make sure things clean up properly.
+
+window.onunload = window.onbeforeunload = function(e) {
+    if (!!peer && !peer.destroyed) {
+        peer.destroy();
+    }
+};
+</script>
+
+</html>

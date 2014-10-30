@@ -84,6 +84,7 @@ If baton is connected, `send(output, data)` sends a data packet out of the given
       value: 127
     };
     for (var o = 0; o < Baton.outputs().length; o++) {
+      console.log("data to send", data);
       Baton.send(o, data);
     }
 
