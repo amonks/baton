@@ -1,4 +1,4 @@
-# baton.js *v1.2.4*
+# baton.js *v1.2.5*
 
 baton.js is a javascript library to make it easy to handle midi input and output using the newish WebMIDI standard.
 
@@ -32,6 +32,8 @@ They all require a MIDI source. You can either plug in a controller, or use [Mid
 *   [use Baton with threejs](http://baton.monks.co/examples/3d.html) uses midi input to affect a 3d scene
 
 *   [use the WebMIDIAPI shim](http://baton.monks.co/examples/shim.html) uses the WebMIDIAPI shim to add midi functionality to browsers that don't support WebMID3
+
+*   [route midi over WebRTC](http://baton.monks.co/examples/rtc.html) uses webrtc to send midi data peer-to-peer.
 
 ## API
 
@@ -84,6 +86,7 @@ If baton is connected, `send(output, data)` sends a data packet out of the given
       value: 127
     };
     for (var o = 0; o < Baton.outputs().length; o++) {
+      console.log("data to send", data);
       Baton.send(o, data);
     }
 

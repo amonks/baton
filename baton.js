@@ -121,7 +121,6 @@ function Baton() {
     var message = {};
     if (ev.data.length == 3) {
       var firstBit = ev.data[0];
-      console.log("firstBit", firstBit);
       switch (true) {
         case (firstBit >= 128 && firstBit < 144):
           message.type = "noteoff";
