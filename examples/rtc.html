@@ -13,6 +13,10 @@
         <p>This example uses WebRTC to send MIDI data between browsers on the internet. It uses the WebRTC standard for in-browser peer-to-peer networking.</p>
         <p>Once you establish a connection, any midi received to this browser's inputs will be sent over the network, and out of the other browser's outputs.</p>
         <p>Use case: have your keyboard-virtuoso friend visit this page and plug in a midi controller. On your end, visit this page also, plug in a midi controlled synthesizer, and listen as their keystrokes are sent over the network and to your synth.</p>
+        <p>If client-mode is enabled, this page will take any midi it receives over the internet, and send it to your local midi buses.</p>
+        <p>If server-mode is enabled, this page will take any midi it receives from local devices, and send it out over the internet.</p>
+        <p>WebMIDI requires a recent version of Chrome with the WebMIDI flag enabled. Visit chrome://flags/#enable-web-midi, click 'enable' then *relaunch chrome*.</p>
+        <p>Because of a bug, Chrome can only connect to MIDI devices that were open when it was launched. If you plug in a controller, open Max/MSP or a DAW, or whatever, you need to *relaunch chrome*. Not just the tab you were in. Chrome itself. Don't say I didn't warn you.</p>
     </div>
     <div id="chat">
         <p>
