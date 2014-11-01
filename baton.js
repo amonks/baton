@@ -1,7 +1,6 @@
-function Baton() {
+var Baton = function() {
 
   var API = {};
-
 
   var input = null;
   var midi = null;
@@ -12,6 +11,11 @@ function Baton() {
 
   var inputs = null;
   var outputs = null;
+
+
+  API.mappings = [];
+  var mapCatch = false;
+  var mappingOnDeck = {};
 
 
   API.checkSupport = function() {
@@ -85,7 +89,12 @@ function Baton() {
     }
   };
 
-
+  API.map = function(name, fn) {
+    deleteMappingByName(name);
+    mapCatch = true;
+    mappingOnDeck.name = name;
+    mappingOnDeck.fn = fn;
+  };
 
   var getInputs = function() {
     out = [];
@@ -153,10 +162,42 @@ function Baton() {
       }
       message.note = parseInt(ev.data[1].toString(10));
       message.value = parseInt(ev.data[2].toString(10));
+      // if waiting for a midi map
+      if (mapCatch === true) {
+        // add this midi message to the mappingOnDeck object
+        mappingOnDeck.midi = message;
+        // then add it to the mappings
+        API.mappings.push(mappingOnDeck);
+        // and reset
+        mappingOnDeck = {};
+        mapCatch = false;
+      }
+      // for each mapping
+      for (var mapping in API.mappings) {
+        // if this midi event has a corresponding mapping
+        if (message.channel === API.mappings[mapping].midi.channel &&
+          message.note === API.mappings[mapping].midi.note &&
+          message.type === API.mappings[mapping].midi.type) {
+          // call the mapped function
+          API.mappings[mapping].fn(message);
+        }
+      }
+      // if there's a callback set
       if (typeof API.callback === 'function') {
-       API.callback(message);
+        // call the callback
+        API.callback(message);
       }
     }
+  };
+
+  var deleteMappingByName = function(name) {
+    var deleteID = null;
+    for (var mapping in API.mappings) {
+      if (API.mappings[mapping].name === name) {
+        deleteID = mapping;
+      }
+    }
+    if (deleteID) API.mappings.pop(deleteID);
   };
 
 
@@ -170,4 +211,4 @@ function Baton() {
     console.log("Otherwise try the Jazz-Soft Jazz plugin.");
     console.log("More info at http://baton.monks.co");
   }
-}
+};
