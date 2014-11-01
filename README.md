@@ -1,4 +1,4 @@
-# baton.js *v1.2.6*
+# baton.js *v1.3.0*
 
 baton.js is a javascript library to make it easy to handle midi input and output using the newish WebMIDI standard.
 
@@ -22,6 +22,8 @@ They all require a MIDI source. You can either plug in a controller, or use [Mid
 *   [Use baton with a single input source callback](http://baton.monks.co/examples/single.html) shows basic midi input, with all controllers handled by the same function.
 
 *   [use Baton with multiple input source callbacks](http://baton.monks.co/examples/multi.html) uses different functions to handle input from two different midi sources.
+
+*   [Automatic MIDI Mapping with Baton](http://baton.monks.co/examples/mapping.html) shows how to easily map a variable to any midi control by clicking a button then twiddling that control.
 
 *   [use Baton with processing.js](http://baton.monks.co/examples/processing.html) draws velocity-sized circle at note-position, at a color set from midi control signals
 
@@ -108,8 +110,63 @@ If baton is connected, `listen(input)` makes it start listening to the given inp
 
     Baton.callback = function(midi) { console.log(midi); };
 
+### `autoMap(string name, function fn)`
+
+`map(name, fn)` waits until the next MIDI input message, then maps that midi control to the function `fn`. The mapping is named `name`.
+
+    var loudness;
+
+    $('#map-button').on('click', function() {
+        Baton.autoMap('loudness', function(m) {
+            loudness = m.value;
+        });
+    });
+
+### `mappings`
+
+`mappings` is the array of mappings used by Baton. If you're careful, you can edit it manually, or you can simply use the `autoMap()` function described above.
+
+    Baton.mappings = [
+      {
+        'name': 'loudness',
+        'midi': { channel: 1, note: 1, type: "control" },
+        'fn': function(m) { loudness = m.value; }
+      }
+    ]
 
 ## Design Patterns
+
+### Automap
+
+[online demo](http://baton.monks.co/examples/mapping.html)
+
+    // instantiate object
+    var baton = new Baton();
+
+    // instantiate mapped variable
+    var paramVal = null;
+
+    // map function
+    // perhaps use a button:
+    // $('button#map-param').on('click', mapParam);
+    function mapParam() {
+      // call autoMap
+      baton.autoMap('param', function(m) {
+        // update mapped variable
+        paramVal = m.value;
+      });
+    });
+
+    // create a function to be called once the midi connection is made
+    listen = function() {
+      // listen to all inputs
+      for (var i = 0; i < baton.inputs().length; i++) {
+        baton.listen(i);
+      }
+    };
+
+    // connect to midi, set the function to be called when connected
+    baton.connect(listen);
 
 ### Handle all input sources identically
 
