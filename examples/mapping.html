@@ -2,28 +2,28 @@
 <html>
 
 <head>
-    <title>Baton</title>
+  <title>Baton</title>
 </head>
 
 <body>
-    <p>
-        mappedVarOne:
-        <span id="map-one-name"></span>
-        <span id="map-one-display"></span>
-        <button type="button" id="map-one-button">map!</button>
-    </p>
-    <p>
-        mappedVarTwo:
-        <span id="map-two-name"></span>
-        <span id="map-two-display"></span>
-        <button type="button" id="map-two-button">map!</button>
-    </p>
-    <p>
-        mappedVarThree:
-        <span id="map-three-name"></span>
-        <span id="map-three-display"></span>
-        <button type="button" id="map-three-button">map!</button>
-    </p>
+  <p>
+    mappedVarOne:
+    <span id="map-one-name"></span>
+    <span id="map-one-display"></span>
+    <button type="button" id="map-one-button">map!</button>
+  </p>
+  <p>
+    mappedVarTwo:
+    <span id="map-two-name"></span>
+    <span id="map-two-display"></span>
+    <button type="button" id="map-two-button">map!</button>
+  </p>
+  <p>
+    mappedVarThree:
+    <span id="map-three-name"></span>
+    <span id="map-three-display"></span>
+    <button type="button" id="map-three-button">map!</button>
+  </p>
 </body>
 <script src="/baton.js"></script>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
@@ -31,43 +31,47 @@
 // instantiate object
 var baton = new Baton();
 
+// instantiate mapped variables
 var mappedVarOne = null;
 var mappedVarTwo = null;
 var mappedVarThree = null;
 
-
+// handle map button events
 $('#map-one-button').on('click', function() {
-    baton.map('one', function(m) {
-        mappedVarOne = m.value;
-    });
+  // call autoMap
+  baton.autoMap('one', function(m) {
+    mappedVarOne = m.value;
+  });
 });
 $('#map-two-button').on('click', function() {
-    baton.map('two', function(m) {
-        mappedVarTwo = m.value;
-    });
+  // call autoMap
+  baton.autoMap('two', function(m) {
+    mappedVarTwo = m.value;
+  });
 });
 $('#map-three-button').on('click', function() {
-    baton.map('three', function(m) {
-        mappedVarThree = m.value;
-    });
+  // call autoMap
+  baton.autoMap('three', function(m) {
+    mappedVarThree = m.value;
+  });
 });
 
 // create a function to be called once the midi connection is made
-listenMulti = function() {
-    // listen to all inputs
-    for (var i = 0; i < baton.inputs().length; i++) {
-        baton.listen(i);
-    }
+listen = function() {
+  // listen to all inputs
+  for (var i = 0; i < baton.inputs().length; i++) {
+    baton.listen(i);
+  }
 };
 
 // connect to midi, set the function to be called when connected
-baton.connect(listenMulti);
+baton.connect(listen);
 
 // this callback is executed when a midi event is received.
 baton.callback = function(m) {
-    $('#map-one-display').text(mappedVarOne);
-    $('#map-two-display').text(mappedVarTwo);
-    $('#map-three-display').text(mappedVarThree);
+  $('#map-one-display').text(mappedVarOne);
+  $('#map-two-display').text(mappedVarTwo);
+  $('#map-three-display').text(mappedVarThree);
 };
 </script>
 

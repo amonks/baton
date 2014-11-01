@@ -89,7 +89,7 @@ var Baton = function() {
     }
   };
 
-  API.map = function(name, fn) {
+  API.autoMap = function(name, fn) {
     deleteMappingByName(name);
     mapCatch = true;
     mappingOnDeck.name = name;
