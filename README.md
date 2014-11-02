@@ -2,6 +2,7 @@
 
 baton.js is a javascript library to make it easy to handle midi input and output using the newish WebMIDI standard.
 
+## [demo](http://baton.monks.co/examples/demo.html)
 
 ## webmidi
 
@@ -112,7 +113,7 @@ If baton is connected, `listen(input)` makes it start listening to the given inp
 
 ### `autoMap(string name, function fn)`
 
-`map(name, fn)` waits until the next MIDI input message, then maps that midi control to the function `fn`. The mapping is named `name`.
+`autoMap(name, fn)` waits until the next MIDI input message, then maps that midi control to the function `fn`. The mapping is named `name`.
 
     var loudness;
 
@@ -122,9 +123,19 @@ If baton is connected, `listen(input)` makes it start listening to the given inp
         });
     });
 
+### `autoMapObj(string name, object obj)`
+
+`autoMapObj(name, obj)` waits until the next MIDI input message, then maps that midi control to the `value` of the object `obj`. The mapping is named `name`.
+
+    var loudness = {value: 0};
+
+    $('#map-button').on('click', function() {
+        Baton.autoMapObj('loudness', loudness);
+    });
+
 ### `mappings`
 
-`mappings` is the array of mappings used by Baton. If you're careful, you can edit it manually, or you can simply use the `autoMap()` function described above.
+`mappings` is the array of mappings used by Baton. If you're careful, you can edit it manually, or you can simply use the `autoMap()` or `autoMapObj()` functions described above.
 
     Baton.mappings = [
       {
@@ -144,17 +155,14 @@ If baton is connected, `listen(input)` makes it start listening to the given inp
     var baton = new Baton();
 
     // instantiate mapped variable
-    var paramVal = null;
+    var paramVal = {value: null};
 
     // map function
     // perhaps use a button:
     // $('button#map-param').on('click', mapParam);
     function mapParam() {
       // call autoMap
-      baton.autoMap('param', function(m) {
-        // update mapped variable
-        paramVal = m.value;
-      });
+      baton.autoMapObj('param', paramVal);
     });
 
     // create a function to be called once the midi connection is made

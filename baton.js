@@ -96,6 +96,15 @@ var Baton = function() {
     mappingOnDeck.fn = fn;
   };
 
+  API.autoMapObj = function(name, obj) {
+    deleteMappingByName(name);
+    mapCatch = true;
+    mappingOnDeck.name = name;
+    mappingOnDeck.fn = function(m) {
+      obj.value = m.value;
+    };
+  };
+
   var getInputs = function() {
     out = [];
     for (var i in midi.inputs()) {
